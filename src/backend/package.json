@@ -9,17 +9,24 @@
     "start:local": "if-env NODE_ENV=test && npm run test || npm run start:dev",
     "start:dev": "npx dotenv-cli -e .env.development -- nodemon src/index.ts",
     "test": "npx dotenv-cli -e .env.test -- jest -i",
-    "migrate:dev": "npx dotenv-cli -e .env.development -- prisma migrate dev --name $npm_config_name",
-    "migrate:test": "npx dotenv-cli -e .env.test -- prisma migrate deploy",
-    "migrate:reset": "npx dotenv-cli -e .env.$npm_config_env -- npx prisma migrate reset"
+    "migrate:dev": "npx dotenv-cli -e .env.development -- prisma migrate dev --name $npm_config_name --skip-seed",
+    "migrate:test": "npx dotenv-cli -e .env.test -- prisma migrate deploy --skip-seed",
+    "migrate:reset": "npx dotenv-cli -e .env.$npm_config_env -- npx prisma migrate reset",
+    "seed": "npx dotenv-cli -e .env.$npm_config_env -- npx prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^4.7.1",
+    "@types/jsonwebtoken": "^8.5.9",
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
-    "if-env": "^1.0.4"
+    "if-env": "^1.0.4",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "@types/express": "4.17.14",

@@ -1,10 +1,10 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { Express } from "express";
 
-const prisma = new PrismaClient();
+const rootUrl = "/api/users";
 
-export const userController = (app: Express) => {
-  app.post(`/signup`, async (req, res) => {
+export const UserController = (app: Express, prisma: PrismaClient) => {
+  app.post(`/api/signup`, async (req, res) => {
     const { name, email } = req.body;
     const password = req.body.password;
     try {
@@ -22,7 +22,7 @@ export const userController = (app: Express) => {
     }
   });
 
-  app.get("/users", async (req, res) => {
+  app.get(rootUrl, async (req, res) => {
     try {
       const users = await prisma.user.findMany();
       res.json(users);
