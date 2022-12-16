@@ -2,10 +2,11 @@ import { Express } from "express";
 import { PrismaClient } from "@prisma/client";
 import * as types from "../types";
 import { sendError } from "./utils/errorHandling";
+import { prisma } from "../../prisma/client";
 
 const rootUrl = "/api/items";
 
-export const ItemController = (app: Express, prisma: PrismaClient) => {
+export const ItemController = (app: Express) => {
   app.get(rootUrl, async (req, res) => {
     try {
       const result = await prisma.item.findMany();

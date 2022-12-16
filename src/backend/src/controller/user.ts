@@ -1,14 +1,14 @@
-import { PrismaClient } from "@prisma/client";
 import { Express } from "express";
+import { prisma } from "../../prisma/client";
 import { CreateUser } from "../repository/user";
 import { CreateUserRequest, ReqBody } from "../types";
 
 const rootUrl = "/api/users";
 
-export const UserController = (app: Express, prisma: PrismaClient) => {
+export const UserController = (app: Express) => {
   app.post(`/api/signup`, async (req: ReqBody<CreateUserRequest>, res) => {
     try {
-      const result = await CreateUser(req.body, prisma);
+      const result = await CreateUser(req.body);
       res.json(result);
     } catch (e) {
       res.status(500).send("error, unable to create new user");
