@@ -1,9 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import { Express } from "express";
+import { ItemController } from "./item";
 import { UserController } from "./user";
 
 const prisma = new PrismaClient();
 
 export const controller = (app: Express) => {
   UserController(app, prisma);
+  ItemController(app, prisma);
 };

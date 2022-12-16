@@ -1,21 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import { Express } from "express";
+import { CreateUser } from "../repository/user";
+import { CreateUserRequest, ReqBody } from "../types";
 
 const rootUrl = "/api/users";
 
 export const UserController = (app: Express, prisma: PrismaClient) => {
-  app.post(`/api/signup`, async (req, res) => {
-    const { name, email } = req.body;
-    const password = req.body.password;
+  app.post(`/api/signup`, async (req: ReqBody<CreateUserRequest>, res) => {
     try {
-      if (password.trim().length < 4) throw new Error("Invalid password");
-      const result = await prisma.user.create({
-        data: {
-          name,
-          email,
-          password,
-        },
-      });
+      const result = await CreateUser(req.body, prisma);
       res.json(result);
     } catch (e) {
       res.status(500).send("error, unable to create new user");
@@ -27,7 +20,7 @@ export const UserController = (app: Express, prisma: PrismaClient) => {
       const users = await prisma.user.findMany();
       res.json(users);
     } catch (e) {
-      console.log({ error: e });
+      res.status(500).send("server error");
     }
   });
   // app.get("/feed", async (req, res) => {
