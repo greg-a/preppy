@@ -1,11 +1,12 @@
-import { PrismaClient } from "@prisma/client";
-import { Express, Response } from "express";
-import { LoginRequest, ReqBody } from "../types";
+import { Express } from "express";
+import { LoginRequest } from "../../../types";
+import { prisma } from "../../prisma/client";
+import { ReqBody } from "../types";
 import { sendError } from "./utils/errorHandling";
 
 const rootURL = "/api/login/";
 
-export const LoginController = (app: Express, prisma: PrismaClient) => {
+export const LoginController = (app: Express) => {
   app.post(rootURL, async (req: ReqBody<LoginRequest>, res) => {
     const { email, password } = req.body;
     if (email && password) {

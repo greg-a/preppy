@@ -1,15 +1,15 @@
 import { Express } from "express";
-import * as types from "../../../types";
 import { prisma } from "../../prisma/client";
-import { sendError } from "./utils/errorHandling";
+import * as types from "../../../types";
 import { ReqBody } from "../types";
+import { sendError } from "./utils/errorHandling";
 
-const rootUrl = "/api/shoppingList";
+const rootUrl = "/api/shoppingListItems";
 
-export const ShoppingListController = (app: Express) => {
+export const ShoppingListItemController = (app: Express) => {
   app.get(rootUrl, async (req, res) => {
     try {
-      const result = await prisma.shoppingList.findMany();
+      const result = await prisma.shoppingListItem.findMany();
       res.json(result);
     } catch (e) {
       sendError(e, res);
@@ -17,9 +17,9 @@ export const ShoppingListController = (app: Express) => {
   });
   app.post(
     rootUrl,
-    async (req: ReqBody<types.CreateShoppingListRequest>, res) => {
+    async (req: ReqBody<types.CreateShoppingListItemRequest>, res) => {
       try {
-        const result = await prisma.shoppingList.create({
+        const result = await prisma.shoppingListItem.create({
           data: { ...req.body, userId: req.user?.id ?? 1 },
         });
         res.json(result);
@@ -30,9 +30,9 @@ export const ShoppingListController = (app: Express) => {
   );
   app.patch(
     `${rootUrl}/update`,
-    async (req: ReqBody<types.UpdateShoppingListRequest>, res) => {
+    async (req: ReqBody<types.UpdateShoppingListItemRequest>, res) => {
       try {
-        const result = await prisma.shoppingList.update({
+        const result = await prisma.item.update({
           where: { id: req.body.id },
           data: req.body,
         });

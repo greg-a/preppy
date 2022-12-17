@@ -1,7 +1,8 @@
 import { Express } from "express";
+import { CreateUserRequest } from "../../../types";
 import { prisma } from "../../prisma/client";
 import { CreateUser } from "../repository/user";
-import { CreateUserRequest, ReqBody } from "../types";
+import { ReqBody } from "../types";
 
 const rootUrl = "/api/users";
 
