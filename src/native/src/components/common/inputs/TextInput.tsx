@@ -6,6 +6,7 @@ import {
   TextInput as RNTI,
   View,
 } from "react-native";
+import { useTheme, Theme } from "@react-navigation/native";
 
 interface Props extends TextInputProps {
   IconLeft: () => JSX.Element;
@@ -17,7 +18,7 @@ export const TextInput = ({ IconLeft, ...props }: Props) => {
   );
   return (
     <View>
-      <View style={{ position: "absolute", left: 0, top: 10, zIndex: 100 }}>
+      <View style={{ position: "absolute", left: 10, top: 12, zIndex: 100 }}>
         <IconLeft />
       </View>
       <RNTextInput
@@ -25,11 +26,7 @@ export const TextInput = ({ IconLeft, ...props }: Props) => {
         clearButtonMode="always"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        style={[
-          styles.baseInput,
-          { borderColor: isFocused ? "grey" : "lightgrey" },
-          { paddingLeft: IconLeft ? 30 : 0 },
-        ]}
+        style={[styles.baseInput, { paddingLeft: IconLeft ? 40 : 0 }]}
         placeholderTextColor="grey"
       />
     </View>
@@ -38,9 +35,7 @@ export const TextInput = ({ IconLeft, ...props }: Props) => {
 
 export const styles = StyleSheet.create({
   baseInput: {
-    padding: 10,
-    backgroundColor: "#fff",
-    // borderBottomColor: "lightgrey",
+    padding: 12,
     borderBottomWidth: 1,
     fontSize: 20,
     fontWeight: "500",

@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
-import { ShoppingList } from "./src/screens/ShoppingList";
+import "react-native-gesture-handler";
+import { Navigator } from "./src/navigation/Navigator";
 
 export default function App() {
-  return <ShoppingList />;
+  return <Navigator />;
 }

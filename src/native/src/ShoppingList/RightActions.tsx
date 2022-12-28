@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ShoppingListItemMessage } from "../../../types";
 
 interface Props {
@@ -18,7 +18,7 @@ export const RightActions = ({ item, onRemove, onViewDetails }: Props) => {
     deleteTimerRef.current = setTimeout(() => {
       onRemove(item);
       setDeleting(false);
-    }, 2000);
+    }, 1500);
   };
 
   const handleUndoRemove = () => {
@@ -37,37 +37,40 @@ export const RightActions = ({ item, onRemove, onViewDetails }: Props) => {
   }, []);
 
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View style={{ flexDirection: "row", paddingRight: 20 }}>
       {deleting ? (
         <TouchableOpacity
           style={{
-            height: "100%",
             justifyContent: "center",
           }}
           onPress={handleUndoRemove}
         >
-          <Text>Undo</Text>
+          <Text style={styles.buttonText}>Undo</Text>
         </TouchableOpacity>
       ) : (
         <>
           <TouchableOpacity
+            onPress={() => onViewDetails(item)}
+            style={{ justifyContent: "center", marginRight: 15 }}
+          >
+            <Text style={styles.buttonText}>Details</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => handleRemove(item)}
             style={{
-              marginRight: 15,
-              height: "100%",
               justifyContent: "center",
             }}
           >
-            <Text>Remove</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => onViewDetails(item)}
-            style={{ height: "100%", justifyContent: "center" }}
-          >
-            <Text>Details</Text>
+            <Text style={styles.buttonText}>Remove</Text>
           </TouchableOpacity>
         </>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonText: {
+    fontSize: 17,
+  },
+});

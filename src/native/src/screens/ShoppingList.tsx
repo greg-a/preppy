@@ -1,9 +1,10 @@
 import React from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import * as types from "../../../types";
 import { TextInput } from "../components/common/inputs/TextInput";
-import { SwipeableRow } from "../components/common/SwipeableRow";
+import { ShoppingListItem } from "../ShoppingList/ShoppingListItem";
 
 const mockData: types.ShoppingListItemMessage[] = [
   {
@@ -35,6 +36,7 @@ const mockData: types.ShoppingListItemMessage[] = [
 ];
 
 export const ShoppingList = () => {
+  const theme = useTheme();
   const [newItem, setNewItem] = React.useState("");
   const [shoppingListItems, setShoppingListItems] = React.useState(mockData);
 
@@ -55,18 +57,13 @@ export const ShoppingList = () => {
     setShoppingListItems(mutateShoppingList);
   };
 
-  const handleSwipe = (
-    direction: "right" | "left",
-    item: types.ShoppingListItemMessage
-  ) => {
-    if (direction === "left") {
-      const mutateShoppingList = [...shoppingListItems];
-      const itemIdx = mutateShoppingList.findIndex(({ id }) => id === item.id);
-      let updatedItem = { ...item };
-      updatedItem.complete = !item.complete;
-      mutateShoppingList.splice(itemIdx, 1, updatedItem);
-      setShoppingListItems([...mutateShoppingList]);
-    }
+  const handleCompleteItem = (item: types.ShoppingListItemMessage) => {
+    const mutateShoppingList = [...shoppingListItems];
+    const itemIdx = mutateShoppingList.findIndex(({ id }) => id === item.id);
+    let updatedItem = { ...item };
+    updatedItem.complete = !item.complete;
+    mutateShoppingList.splice(itemIdx, 1, updatedItem);
+    setShoppingListItems([...mutateShoppingList]);
   };
 
   const handleRemoveItem = (item: types.ShoppingListItemMessage) => {
@@ -77,8 +74,7 @@ export const ShoppingList = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>My Shopping List</Text>
+    <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
       <FlatList
         ListHeaderComponent={
           <TextInput
@@ -94,17 +90,17 @@ export const ShoppingList = () => {
         style={styles.list}
         data={shoppingListItems}
         ItemSeparatorComponent={() => (
-          <View style={{ height: 1, backgroundColor: "lightgrey" }} />
+          <View style={{ height: 1, backgroundColor: theme.colors.border }} />
         )}
         renderItem={({ item }) => (
-          <SwipeableRow
+          <ShoppingListItem
             item={item}
-            onSwipe={handleSwipe}
+            onComplete={handleCompleteItem}
             onRemoveItem={handleRemoveItem}
           />
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -113,11 +109,8 @@ const styles = StyleSheet.create({
     fontSize: 35,
     alignSelf: "center",
   },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
   list: {
-    margin: 25,
+    // marginLeft: 25,
+    // marginRight: 25,
   },
 });
