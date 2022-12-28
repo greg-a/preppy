@@ -59,18 +59,21 @@ export const ShoppingList = () => {
     direction: "right" | "left",
     item: types.ShoppingListItemMessage
   ) => {
-    setTimeout(() => {}, 3_000);
-    const mutateShoppingList = [...shoppingListItems];
-    const itemIdx = mutateShoppingList.findIndex(({ id }) => id === item.id);
-    let updatedItem = { ...item };
     if (direction === "left") {
-      updatedItem.complete = true;
+      const mutateShoppingList = [...shoppingListItems];
+      const itemIdx = mutateShoppingList.findIndex(({ id }) => id === item.id);
+      let updatedItem = { ...item };
+      updatedItem.complete = !item.complete;
+      mutateShoppingList.splice(itemIdx, 1, updatedItem);
+      setShoppingListItems([...mutateShoppingList]);
     }
-    if (direction === "right") {
-      updatedItem.complete = false;
-    }
-    mutateShoppingList.splice(itemIdx, 1, updatedItem);
-    setShoppingListItems([...mutateShoppingList]);
+  };
+
+  const handleRemoveItem = (item: types.ShoppingListItemMessage) => {
+    const mutateShoppingList = [...shoppingListItems].filter(
+      (x) => x.id !== item.id
+    );
+    setShoppingListItems(mutateShoppingList);
   };
 
   return (
@@ -94,7 +97,11 @@ export const ShoppingList = () => {
           <View style={{ height: 1, backgroundColor: "lightgrey" }} />
         )}
         renderItem={({ item }) => (
-          <SwipeableRow item={item} onSwipe={handleSwipe} />
+          <SwipeableRow
+            item={item}
+            onSwipe={handleSwipe}
+            onRemoveItem={handleRemoveItem}
+          />
         )}
       />
     </SafeAreaView>
