@@ -37,7 +37,7 @@ export type UpdateItemRequest = Partial<CreateItemRequest> & {
   id: number;
 };
 
-export interface Item extends DecoratedMessage, CreateItemRequest {}
+export interface ItemMessage extends DecoratedMessage, CreateItemRequest {}
 
 export interface CreateShoppingListRequest {
   name: string;
@@ -66,7 +66,7 @@ export type CommonItem = {
 
 type SavedItem = CommonItem & {
   itemId: number;
-  item?: Item;
+  item?: ItemMessage;
   name?: never;
 };
 
