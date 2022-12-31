@@ -2,19 +2,33 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
-import * as types from "../../../types";
 import { RightActions } from "./RightActions";
 
-interface Props {
-  item: types.ShoppingListItemMessage;
-  onComplete: (item: types.ShoppingListItemMessage) => void;
-  onRemoveItem: (item: types.ShoppingListItemMessage) => void;
+interface BaseItem {
+  name: string;
+  complete?: boolean;
 }
 
-export const ShoppingListItem = ({ item, onComplete, onRemoveItem }: Props) => {
+interface Props<T> {
+  item: T;
+  enableCheckbox?: boolean;
+  onCheckboxPress?: (item: T) => void;
+  onRemoveItem?: (item: T) => void;
+  onViewItemDetails?: (item: T) => void;
+}
+
+export const BasicRow = <T extends BaseItem>(props: Props<T>) => {
+  const {
+    item,
+    onCheckboxPress,
+    enableCheckbox,
+    onRemoveItem,
+    onViewItemDetails,
+  } = props;
   const theme = useTheme();
   const closeRowTimerRef = React.useRef(null);
   const [viewActions, setViewActions] = React.useState(false);
+  const enableActions = "onRemoveItem" && "onViewItemDetails" in props;
 
   React.useEffect(() => {
     return () => {
@@ -39,10 +53,12 @@ export const ShoppingListItem = ({ item, onComplete, onRemoveItem }: Props) => {
           flex: 1,
         }}
       >
-        <Checkbox
-          value={item.complete}
-          onValueChange={() => onComplete(item)}
-        />
+        {enableCheckbox && (
+          <Checkbox
+            value={item.complete}
+            onValueChange={() => onCheckboxPress(item)}
+          />
+        )}
         <TouchableOpacity
           style={{ width: "100%" }}
           onPress={() => setViewActions((prev) => !prev)}
@@ -56,15 +72,15 @@ export const ShoppingListItem = ({ item, onComplete, onRemoveItem }: Props) => {
               },
             ]}
           >
-            {item.name ?? item.item.name}
+            {item.name}
           </Text>
         </TouchableOpacity>
       </View>
-      {viewActions && (
+      {enableActions && viewActions && (
         <RightActions
           item={item}
           onRemove={onRemoveItem}
-          onViewDetails={() => {}}
+          onViewDetails={onViewItemDetails}
         />
       )}
     </View>

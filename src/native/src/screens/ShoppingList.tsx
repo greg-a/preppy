@@ -1,10 +1,8 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
 import * as types from "../../../types";
-import { TextInput } from "../components/common/inputs/TextInput";
-import { ShoppingListItem } from "../ShoppingList/ShoppingListItem";
+import { BasicFlatList } from "../components/common/BasicFlatList";
+import { BasicRow } from "../components/common/listItems/BasicRow";
 
 const mockData: types.ShoppingListItemMessage[] = [
   {
@@ -18,6 +16,7 @@ const mockData: types.ShoppingListItemMessage[] = [
   {
     id: 2,
     itemId: 1,
+    name: "Bread",
     item: { name: "Bread", createdAt: "", updatedAt: "", id: 1, userId: 1 },
     shoppingListId: 1,
     userId: 1,
@@ -27,6 +26,7 @@ const mockData: types.ShoppingListItemMessage[] = [
   {
     id: 3,
     itemId: 1,
+    name: "Milk",
     item: { name: "Milk", createdAt: "", updatedAt: "", id: 1, userId: 1 },
     shoppingListId: 1,
     userId: 1,
@@ -52,6 +52,7 @@ export const ShoppingList = () => {
       userId: 1,
       createdAt: "",
       updatedAt: "",
+      name: newItem,
       item: { name: newItem, id: 1, userId: 1, createdAt: "", updatedAt: "" },
     });
     setShoppingListItems(mutateShoppingList);
@@ -74,43 +75,25 @@ export const ShoppingList = () => {
   };
 
   return (
-    <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
-      <FlatList
-        ListHeaderComponent={
-          <TextInput
-            value={newItem}
-            onChangeText={setNewItem}
-            IconLeft={() => <Ionicons name="add" size={24} color="black" />}
-            onEndEditing={handleEndEdit}
-            placeholder="add item"
-            returnKeyType="done"
-          />
-        }
-        keyExtractor={(item) => String(item.id)}
-        style={styles.list}
-        data={shoppingListItems}
-        ItemSeparatorComponent={() => (
-          <View style={{ height: 1, backgroundColor: theme.colors.border }} />
-        )}
-        renderItem={({ item }) => (
-          <ShoppingListItem
-            item={item}
-            onComplete={handleCompleteItem}
-            onRemoveItem={handleRemoveItem}
-          />
-        )}
-      />
-    </View>
+    <BasicFlatList
+      textInputProps={{
+        value: newItem,
+        onChangeText: setNewItem,
+        onEndEditing: handleEndEdit,
+      }}
+      data={shoppingListItems.map((item) => ({
+        ...item,
+        name: item.name ?? item.item.name,
+      }))}
+      renderItem={({ item }) => (
+        <BasicRow
+          enableCheckbox
+          item={item}
+          onCheckboxPress={handleCompleteItem}
+          onRemoveItem={handleRemoveItem}
+          onViewItemDetails={() => {}}
+        />
+      )}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 35,
-    alignSelf: "center",
-  },
-  list: {
-    // marginLeft: 25,
-    // marginRight: 25,
-  },
-});

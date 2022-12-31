@@ -10,7 +10,7 @@ import {
   DrawerNavigationOptions,
 } from "@react-navigation/drawer";
 import { ShoppingList } from "../../src/screens/ShoppingList";
-import { ItemList } from "../screens/ItemList";
+import { ShoppingItems } from "../screens/ShoppingItems";
 
 const Drawer = createDrawerNavigator();
 
@@ -28,7 +28,7 @@ export const Navigator = () => {
     <NavigationContainer theme={theme}>
       <Drawer.Navigator screenOptions={options}>
         <Drawer.Screen name="Shopping List" component={ShoppingList} />
-        <Drawer.Screen name="Shopping Items" component={ItemList} />
+        <Drawer.Screen name="Shopping Items" component={ShoppingItems} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

@@ -1,18 +1,22 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { ShoppingListItemMessage } from "../../../types";
+import { ShoppingListItemMessage } from "../../../../../types";
 
-interface Props {
-  item: ShoppingListItemMessage;
-  onRemove: (item: ShoppingListItemMessage) => void;
-  onViewDetails: (item: ShoppingListItemMessage) => void;
+interface Props<T> {
+  item: T;
+  onRemove: (item: T) => void;
+  onViewDetails: (item: T) => void;
 }
 
-export const RightActions = ({ item, onRemove, onViewDetails }: Props) => {
+export const RightActions = <T,>({
+  item,
+  onRemove,
+  onViewDetails,
+}: Props<T>) => {
   const deleteTimerRef = React.useRef(null);
   const [deleting, setDeleting] = React.useState(false);
 
-  const handleRemove = (item: ShoppingListItemMessage) => {
+  const handleRemove = (item: T) => {
     setDeleting(true);
 
     deleteTimerRef.current = setTimeout(() => {

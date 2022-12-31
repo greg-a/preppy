@@ -1,1 +1,1 @@
-export { getAllItems } from "./items";
+export { ServiceResolver } from "./startup.services";

@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import * as types from "../../../../types";
-import { RightActions } from "../../ShoppingList/RightActions";
+import * as types from "../../../../../types";
+import { RightActions } from "./RightActions";
 
 const LeftAction = () => (
   <View style={{ justifyContent: "center" }}>

@@ -1,21 +1,16 @@
 import React from "react";
 import {
   StyleSheet,
-  TextInputProps,
+  TextInputProps as RNTextInputProps,
   TextInput as RNTextInput,
-  TextInput as RNTI,
   View,
 } from "react-native";
-import { useTheme, Theme } from "@react-navigation/native";
 
-interface Props extends TextInputProps {
+export interface TextInputProps extends RNTextInputProps {
   IconLeft: () => JSX.Element;
 }
 
-export const TextInput = ({ IconLeft, ...props }: Props) => {
-  const [isFocused, setIsFocused] = React.useState(
-    props.autoFocus ? true : false
-  );
+export const TextInput = ({ IconLeft, ...props }: TextInputProps) => {
   return (
     <View>
       <View style={{ position: "absolute", left: 10, top: 12, zIndex: 100 }}>
@@ -24,8 +19,6 @@ export const TextInput = ({ IconLeft, ...props }: Props) => {
       <RNTextInput
         {...props}
         clearButtonMode="always"
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
         style={[styles.baseInput, { paddingLeft: IconLeft ? 40 : 0 }]}
         placeholderTextColor="grey"
       />

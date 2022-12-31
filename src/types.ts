@@ -62,18 +62,17 @@ export type CommonItem = {
   minPrice?: number;
   complete?: boolean;
   shoppingListId: number;
+  name: string;
 };
 
 type SavedItem = CommonItem & {
   itemId: number;
   item?: ItemMessage;
-  name?: never;
 };
 
 type NonSavedItem = CommonItem & {
   itemId?: never;
   item?: never;
-  name: string;
 };
 
 export type CreateShoppingListItemRequest = SavedItem | NonSavedItem;
