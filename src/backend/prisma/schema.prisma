@@ -12,7 +12,7 @@ datasource db {
 
 model Item {
   id                Int                @id @default(autoincrement())
-  name              String             @db.VarChar(80)
+  name              String             @unique @db.VarChar(80)
   description       String?            @db.VarChar(255)
   category          String?            @db.VarChar(80)
   note              String?            @db.VarChar(255)
@@ -26,12 +26,11 @@ model Item {
 
 model ShoppingListItem {
   id             Int          @id @default(autoincrement())
-  name           String?      @db.VarChar(80)
+  name           String       @db.VarChar(80)
   note           String?      @db.VarChar(255)
   priority       Priority?    @default(Low)
   quantity       Int?         @default(1)
-  maxPrice       Int?
-  minPrice       Int?
+  purchasePrice  Int?
   complete       Boolean?     @default(false)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt

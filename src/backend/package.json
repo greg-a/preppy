@@ -10,7 +10,7 @@
     "start:dev": "npx dotenv-cli -e .env.development -- nodemon src/index.ts",
     "test": "npx dotenv-cli -e .env.test -- jest -i",
     "migrate:dev": "npx dotenv-cli -e .env.development -- prisma migrate dev --name $npm_config_name --skip-seed",
-    "migrate:test": "npx dotenv-cli -e .env.test -- prisma migrate deploy --skip-seed",
+    "migrate:test": "npx dotenv-cli -e .env.test -- prisma migrate deploy",
     "migrate:reset": "npx dotenv-cli -e .env.$npm_config_env -- npx prisma migrate reset",
     "seed": "npx dotenv-cli -e .env.$npm_config_env -- npx prisma db seed"
   },

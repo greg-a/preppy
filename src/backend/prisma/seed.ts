@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
+
 async function main() {
   const greg = await prisma.user.upsert({
     where: { email: "greg@prisma.io" },
@@ -8,6 +10,14 @@ async function main() {
       email: "greg@prisma.io",
       name: "Greg",
       password: "test123",
+      shoppingLists: {
+        create: [
+          { name: "grocery store", description: "this is for acme or target" },
+        ],
+      },
+      items: {
+        create: [{ name: "ice cream" }],
+      },
     },
   });
   const anne = await prisma.user.upsert({
@@ -17,6 +27,19 @@ async function main() {
       email: "anne@prisma.io",
       name: "Anne",
       password: "test123",
+      shoppingLists: {
+        create: [{ name: "trader joe's" }],
+      },
+      items: {
+        create: [
+          {
+            name: "milk",
+            description: "almond milk or cashew milk",
+            category: "grocery",
+            note: "we need this by tomorrow morning",
+          },
+        ],
+      },
     },
   });
   console.log({ greg, anne });

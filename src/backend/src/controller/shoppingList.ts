@@ -9,7 +9,10 @@ const rootUrl = "/api/shoppingList";
 export const ShoppingListController = (app: Express) => {
   app.get(rootUrl, async (req, res) => {
     try {
-      const result = await prisma.shoppingList.findMany();
+      const result = await prisma.shoppingList.findMany({
+        where: { userId: 1 },
+        include: { items: true },
+      });
       res.json(result);
     } catch (e) {
       sendError(e, res);

@@ -1,44 +1,11 @@
 import React from "react";
-import { useTheme } from "@react-navigation/native";
 import * as types from "../../../types";
 import { BasicFlatList } from "../components/common/BasicFlatList";
 import { BasicRow } from "../components/common/listItems/BasicRow";
 
-const mockData: types.ShoppingListItemMessage[] = [
-  {
-    id: 1,
-    name: "Bananas",
-    shoppingListId: 1,
-    userId: 1,
-    createdAt: "",
-    updatedAt: "",
-  },
-  {
-    id: 2,
-    itemId: 1,
-    name: "Bread",
-    item: { name: "Bread", createdAt: "", updatedAt: "", id: 1, userId: 1 },
-    shoppingListId: 1,
-    userId: 1,
-    createdAt: "",
-    updatedAt: "",
-  },
-  {
-    id: 3,
-    itemId: 1,
-    name: "Milk",
-    item: { name: "Milk", createdAt: "", updatedAt: "", id: 1, userId: 1 },
-    shoppingListId: 1,
-    userId: 1,
-    createdAt: "",
-    updatedAt: "",
-  },
-];
-
 export const ShoppingList = () => {
-  const theme = useTheme();
   const [newItem, setNewItem] = React.useState("");
-  const [shoppingListItems, setShoppingListItems] = React.useState(mockData);
+  const [shoppingListItems, setShoppingListItems] = React.useState([]);
 
   const handleEndEdit = () => {
     if (newItem.length === 0) return null;

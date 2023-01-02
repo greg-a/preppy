@@ -39,6 +39,13 @@ export type UpdateItemRequest = Partial<CreateItemRequest> & {
 
 export interface ItemMessage extends DecoratedMessage, CreateItemRequest {}
 
+export interface ShoppingListMessage extends DecoratedMessage {
+  name: string;
+  description?: string;
+  complete?: boolean;
+  items: ItemMessage[];
+}
+
 export interface CreateShoppingListRequest {
   name: string;
   description?: string;
@@ -75,12 +82,13 @@ type NonSavedItem = CommonItem & {
   item?: never;
 };
 
-export type CreateShoppingListItemRequest = SavedItem | NonSavedItem;
+export type CreateShoppingListItemRequest = CommonItem & { itemId?: number };
 
 export type UpdateShoppingListItemRequest =
   Partial<CreateShoppingListItemRequest> & {
     id: number;
   };
 
-export type ShoppingListItemMessage = CreateShoppingListItemRequest &
+export type ShoppingListItemMessage = CommonItem &
+  (SavedItem | NonSavedItem) &
   DecoratedMessage;
