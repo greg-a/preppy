@@ -43,7 +43,7 @@ export interface ShoppingListMessage extends DecoratedMessage {
   name: string;
   description?: string;
   complete?: boolean;
-  items: ItemMessage[];
+  items: ShoppingListItemMessage[];
 }
 
 export interface CreateShoppingListRequest {
