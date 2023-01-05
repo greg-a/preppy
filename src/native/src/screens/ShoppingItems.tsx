@@ -1,15 +1,15 @@
 import React from "react";
-import { ServiceResolver } from "../services";
 import { BasicRow } from "../components/common/listItems/BasicRow";
 import { BasicFlatList } from "../components/common/BasicFlatList";
+import { useItemsList } from "../hooks/reactQuery";
 
 export const ShoppingItems = () => {
+  const { getAllItems, saveItem } = useItemsList();
   const [newItem, setNewItem] = React.useState("");
-  const { data } = ServiceResolver.ItemsService.GetAllItems();
-  const { mutate } = ServiceResolver.ItemsService.SaveItem();
+  const { data } = getAllItems();
 
   const handleEndEdit = () => {
-    mutate({ name: newItem });
+    saveItem.mutate({ name: newItem });
     setNewItem("");
   };
   return (

@@ -1,1 +1,2 @@
-export { ServiceResolver } from "./startup.services";
+export * from "./shoppingList";
+export * from "./items";

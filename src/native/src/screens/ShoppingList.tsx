@@ -2,19 +2,17 @@ import React from "react";
 import { ShoppingListItemMessage } from "../../../types";
 import { BasicFlatList } from "../components/common/BasicFlatList";
 import { BasicRow } from "../components/common/listItems/BasicRow";
-import { ServiceResolver } from "../services";
+import { useShoppingList } from "../hooks/reactQuery";
 
 export const ShoppingList = () => {
-  const { data, isLoading } =
-    ServiceResolver.ShoppingListService.GetShoppingList(1);
-  const addItem = ServiceResolver.ShoppingListService.AddItem();
-  const updateItem = ServiceResolver.ShoppingListService.UpdateItem();
+  const { getShoppingList, addItem, updateItem } = useShoppingList();
+  const { data, isLoading } = getShoppingList(1);
   const [newItem, setNewItem] = React.useState("");
 
   const handleEndEdit = () => {
     if (data && data.id && newItem.trim().length > 0) {
       setNewItem("");
-      addItem({ name: newItem, shoppingListId: data.id });
+      addItem.mutate({ name: newItem, shoppingListId: data.id });
     }
   };
 
