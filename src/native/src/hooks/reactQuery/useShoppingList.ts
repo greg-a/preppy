@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import * as types from "../../../../types";
-import * as service from "../../services";
+import * as service from "../../services/shoppingList";
 
 export const useShoppingList = () => {
   const queryClient = useQueryClient();
@@ -9,7 +8,9 @@ export const useShoppingList = () => {
     useQuery("shoppingList", service.getShoppingLists);
 
   const getShoppingList = (shoppingListId: number) =>
-    useQuery("shoppingList", () => service.getShoppingList(shoppingListId));
+    useQuery(["shoppingList", shoppingListId], () =>
+      service.getShoppingList(shoppingListId)
+    );
 
   const createShoppingList = {
     ...useMutation(service.createList, {
@@ -24,15 +25,23 @@ export const useShoppingList = () => {
     ...useMutation(service.addItem, {
       onSuccess: (res) => {
         console.log({ res });
-        queryClient.invalidateQueries("shoppingList");
+        queryClient.invalidateQueries(["shoppingList", res.shoppingListId]);
       },
     }),
   };
 
   const updateItem = {
     ...useMutation(service.updateItem, {
-      onSuccess: () => {
-        queryClient.invalidateQueries("shoppingList");
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["shoppingList", res.shoppingListId]);
+      },
+    }),
+  };
+
+  const removeItem = {
+    ...useMutation(service.removeItem, {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["shoppingList", res.shoppingListId]);
       },
     }),
   };
@@ -43,5 +52,6 @@ export const useShoppingList = () => {
     createShoppingList,
     addItem,
     updateItem,
+    removeItem,
   };
 };

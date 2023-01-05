@@ -1,6 +1,5 @@
 import * as http from "./http";
 import * as types from "../../../types";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const rootUrl = "/api/items";
 

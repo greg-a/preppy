@@ -4,7 +4,8 @@ const apiHost = "http://192.168.1.247:3000";
 
 export const get = <T>(url: string) =>
   axios.get<T>(apiHost + url).then((res) => res.data);
-export const _delete = <T>(url: string) => axios.delete<T>(apiHost + url);
+export const _delete = <T>(url: string) =>
+  axios.delete<T>(apiHost + url).then((res) => res.data);
 
 export const post = <TRes>(url: string, body: unknown) =>
   axios.post<TRes>(apiHost + url, body).then((res) => res.data);

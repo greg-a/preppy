@@ -18,3 +18,9 @@ export const addItem = (data: types.CreateShoppingListItemRequest) =>
 export const updateItem = (data: types.UpdateShoppingListItemRequest) => {
   return http.patch<types.ShoppingListItemMessage>(`${rootUrl}/item`, data);
 };
+
+export const removeItem = (itemId: number) => {
+  return http._delete<types.ShoppingListItemMessage>(
+    `${rootUrl}/item/${itemId}`
+  );
+};

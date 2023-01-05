@@ -84,4 +84,14 @@ export const ShoppingListController = (app: Express) => {
       }
     }
   );
+  app.delete(`${rootUrl}/item/:shoppingItemId`, async (req, res) => {
+    try {
+      const result = await prisma.shoppingListItem.delete({
+        where: { id: Number(req.params.shoppingItemId) },
+      });
+      res.json(result);
+    } catch (e) {
+      sendError(e, res);
+    }
+  });
 };

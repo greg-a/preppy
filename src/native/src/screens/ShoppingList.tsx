@@ -5,7 +5,8 @@ import { BasicRow } from "../components/common/listItems/BasicRow";
 import { useShoppingList } from "../hooks/reactQuery";
 
 export const ShoppingList = () => {
-  const { getShoppingList, addItem, updateItem } = useShoppingList();
+  const { getShoppingList, addItem, updateItem, removeItem } =
+    useShoppingList();
   const { data, isLoading } = getShoppingList(1);
   const [newItem, setNewItem] = React.useState("");
 
@@ -20,7 +21,9 @@ export const ShoppingList = () => {
     updateItem.mutate({ id: item.id, complete: !item.complete });
   };
 
-  const handleRemoveItem = () => {};
+  const handleRemoveItem = (item: ShoppingListItemMessage) => {
+    removeItem.mutate(item.id);
+  };
 
   return (
     <BasicFlatList
