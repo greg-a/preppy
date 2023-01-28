@@ -26,6 +26,7 @@ export const BasicFlatList = <T extends { id: number }>(props: Props<T>) => {
             IconLeft={() => <Ionicons name="add" size={24} color="black" />}
             placeholder="add item"
             returnKeyType="done"
+            style={{ padding: 12 }}
             {...textInputProps}
           />
         }

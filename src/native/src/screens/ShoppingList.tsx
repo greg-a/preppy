@@ -1,10 +1,20 @@
 import React from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ShoppingListItemMessage } from "../../../types";
 import { BasicFlatList } from "../components/common/BasicFlatList";
 import { BasicRow } from "../components/common/listItems/BasicRow";
 import { useShoppingList } from "../hooks/reactQuery";
 
-export const ShoppingList = () => {
+export type RootStackParamList = {
+  Home: undefined;
+  ShoppingList: undefined;
+  ShoppingItems: undefined;
+  ShoppingItemDetails: { item: ShoppingListItemMessage };
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, "Home">;
+
+export const ShoppingList = ({ navigation }: Props) => {
   const { getShoppingList, addItem, updateItem, removeItem } =
     useShoppingList();
   const { data, isLoading } = getShoppingList(1);
@@ -40,7 +50,9 @@ export const ShoppingList = () => {
           item={item}
           onCheckboxPress={handleCompleteItem}
           onRemoveItem={handleRemoveItem}
-          onViewItemDetails={() => {}}
+          onViewItemDetails={() =>
+            navigation.navigate("ShoppingItemDetails", { item })
+          }
         />
       )}
     />

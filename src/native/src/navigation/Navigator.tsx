@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, useColorScheme } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
 import {
   NavigationContainer,
   Theme,
@@ -9,12 +10,14 @@ import {
   createDrawerNavigator,
   DrawerNavigationOptions,
 } from "@react-navigation/drawer";
-import { ShoppingList } from "../../src/screens/ShoppingList";
+import { ShoppingList } from "../screens/ShoppingList";
 import { ShoppingItems } from "../screens/ShoppingItems";
+import { ShoppingItemDetails } from "../screens/ShoppingItemDetails";
 
 const Drawer = createDrawerNavigator();
+const RootStack = createStackNavigator();
 
-export const Navigator = () => {
+export const DrawerNavigator = () => {
   const scheme = useColorScheme();
   const theme = React.useMemo(
     () => (scheme === "dark" ? DarkTheme : LightTheme),
@@ -25,11 +28,40 @@ export const Navigator = () => {
     headerTitleStyle: styles.title,
   };
   return (
+    <Drawer.Navigator screenOptions={options}>
+      <Drawer.Screen name="ShoppingList" component={ShoppingList} />
+      <Drawer.Screen name="ShoppingItems" component={ShoppingItems} />
+    </Drawer.Navigator>
+  );
+};
+
+export const Navigator = () => {
+  const scheme = useColorScheme();
+  const theme = React.useMemo(
+    () => (scheme === "dark" ? DarkTheme : LightTheme),
+    [scheme]
+  );
+  return (
     <NavigationContainer theme={theme}>
-      <Drawer.Navigator screenOptions={options}>
-        <Drawer.Screen name="Shopping List" component={ShoppingList} />
-        <Drawer.Screen name="Shopping Items" component={ShoppingItems} />
-      </Drawer.Navigator>
+      <RootStack.Navigator
+        screenOptions={{
+          headerShown: false,
+          headerTitleStyle: styles.title,
+          headerStyle: { backgroundColor: theme.colors.background },
+        }}
+      >
+        <RootStack.Screen name="Home" component={DrawerNavigator} />
+        <RootStack.Screen
+          name="ShoppingItemDetails"
+          component={ShoppingItemDetails}
+          options={({ route }: any) => ({
+            presentation: "modal",
+            headerShown: true,
+            headerBackTitle: "Back",
+            headerTitle: route.params.item.name,
+          })}
+        />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 };

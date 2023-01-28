@@ -3,9 +3,14 @@ interface Timestamps {
   updatedAt: string;
 }
 
+interface User {
+  name: string;
+}
+
 interface DecoratedMessage extends Timestamps {
   userId: number;
   id: number;
+  user?: User;
 }
 
 export interface UserAuthInfo {

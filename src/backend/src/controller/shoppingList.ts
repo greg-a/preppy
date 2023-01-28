@@ -11,7 +11,7 @@ export const ShoppingListController = (app: Express) => {
     try {
       const result = await prisma.shoppingList.findMany({
         where: { userId: 1 },
-        include: { items: true },
+        include: { items: { include: { user: { select: { name: true } } } } },
       });
       res.json(result);
     } catch (e) {
@@ -22,7 +22,7 @@ export const ShoppingListController = (app: Express) => {
     try {
       const result = await prisma.shoppingList.findFirst({
         where: { userId: 1, id: Number(req.params.shoppingListId) },
-        include: { items: true },
+        include: { items: { include: { user: { select: { name: true } } } } },
       });
       res.json(result);
     } catch (e) {
