@@ -1,10 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {StatusBar} from 'expo-status-bar';
+import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {ShoppingList} from './src/screens/ShoppingList';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <ShoppingList />
       <StatusBar style="auto" />
     </View>
   );
